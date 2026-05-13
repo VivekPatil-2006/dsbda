@@ -1,0 +1,96 @@
+Customer Information System using Hive and HBase
+Very Simple Commands with Simple Comments
+a. Create Tables
+CREATE TABLE customer_info(
+id INT,
+name STRING,
+order_id INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+CREATE TABLE order_info(
+order_id INT,
+item_id INT,
+quantity INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+CREATE TABLE item_info(
+item_id INT,
+item_name STRING,
+price INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+Comment:
+CREATE TABLE -> creates table
+FIELDS TERMINATED BY ',' -> data separated by comma
+b. Load Data
+LOAD DATA LOCAL INPATH '/home/cloudera/customer.txt'
+INTO TABLE customer_info;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/order.txt'
+INTO TABLE order_info;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/item.txt'
+INTO TABLE item_info;
+
+Comment:
+LOAD DATA -> loads file data
+LOCAL -> file from local system
+c. Join Tables
+SELECT *
+FROM customer_info c
+JOIN order_info o
+ON c.order_id=o.order_id
+JOIN item_info i
+ON o.item_id=i.item_id;
+
+Comment:
+JOIN -> combines tables
+d. Create Index
+CREATE INDEX customer_index
+ON TABLE customer_info(name)
+AS 'COMPACT';
+
+Comment:
+CREATE INDEX -> creates index
+e. Total and Average Sales
+SELECT SUM(price)
+FROM item_info;
+
+SELECT AVG(price)
+FROM item_info;
+Comment:
+SUM() -> total sales
+AVG() -> average sales
+f. Maximum Cost Order
+SELECT *
+FROM order_info
+ORDER BY quantity DESC
+LIMIT 1;
+
+Comment:
+DESC -> highest value first
+LIMIT 1 -> only one row
+g. Create External Table
+CREATE EXTERNAL TABLE customer_hive(
+id INT,
+name STRING,
+order_id INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LOCATION '/user/hive/customer_data';
+
+Comment:
+EXTERNAL TABLE -> external Hive table
+LOCATION -> HDFS path
+h. Display HBase Records
+scan 'customer_info'
+
+Comment:
+scan -> displays table records

@@ -1,0 +1,162 @@
+
+TABLEAU ASSIGNMENT 19 – RETAIL DATASET
+
+Dataset Used:
+Online Retail.xlsx
+
+STEP 1 – OPEN TABLEAU
+1. Open Tableau Public/Desktop.
+2. Click Microsoft Excel.
+3. Select Online Retail.xlsx.
+4. Click Open.
+
+STEP 2 – CREATE TOTAL SALES FIELD
+1. Go to Analysis → Create Calculated Field.
+2. Field Name: Total Sales
+3. Formula:
+   [Quantity] * [UnitPrice]
+4. Click OK.
+
+a. TOP 10 PRODUCTS BASED ON TOTAL SALE
+1. Open New Sheet.
+2. Drag Description → Rows.
+3. Drag Total Sales → Columns.
+4. Sort Descending.
+5. Right Click Description → Filter.
+6. Open Top Tab.
+7. Select Top 10 by Sum(Total Sales).
+8. Use Bar Chart.
+
+b. PRODUCT CONTRIBUTION TO TOTAL SALE
+1. Open New Sheet.
+2. Drag Description → Rows.
+3. Drag Total Sales → Columns.
+4. Select Pie Chart.
+5. Drag Total Sales → Angle and Label.
+6. Quick Table Calculation → Percent of Total.
+
+c. MONTH WISE SALES IN YEAR 2010
+1. Open New Sheet.
+2. Drag InvoiceDate → Columns.
+3. Select MONTH.
+4. Drag Total Sales → Rows.
+5. Filter Year = 2010.
+6. Sort Descending.
+7. Use Bar Chart.
+
+d. MOST LOYAL CUSTOMERS BASED ON PURCHASE ORDER
+1. Open New Sheet.
+2. Drag CustomerID → Rows.
+3. Drag InvoiceNo → Columns.
+4. Measure → Count Distinct.
+5. Sort Descending.
+6. Use Bar Chart.
+
+e. YEARLY SALES COMPARISON
+1. Open New Sheet.
+2. Drag InvoiceDate → Columns.
+3. Select YEAR.
+4. Drag Total Sales → Rows.
+5. Use Line Chart.
+
+f. COUNTRY WISE TOTAL SALES PRICE ON GEOSPATIAL GRAPH
+1. Open New Sheet.
+2. Double Click Country.
+3. Tableau creates map.
+4. Drag Total Sales → Color and Size.
+5. Use Filled Map.
+
+==================================================
+
+TABLEAU ASSIGNMENT 20 – RETAIL DATASET
+
+a. COUNTRY WISE POPULAR PRODUCT
+1. Drag Country → Rows.
+2. Drag Description → Rows.
+3. Drag Quantity → Columns.
+4. Sort Descending.
+5. Use Bar Chart.
+
+b. BOTTOM 10 PRODUCTS BASED ON TOTAL SALE
+1. Drag Description → Rows.
+2. Drag Total Sales → Columns.
+3. Sort Ascending.
+4. Filter → Bottom 10 by Sum(Total Sales).
+
+c. TOP 5 PURCHASE ORDER
+1. Drag InvoiceNo → Rows.
+2. Drag Total Sales → Columns.
+3. Sort Descending.
+4. Filter → Top 5 by Sum(Total Sales).
+
+d. MOST POPULAR PRODUCTS BASED ON SALES
+1. Drag Description → Rows.
+2. Drag Quantity → Columns.
+3. Sort Descending.
+
+e. HALF YEARLY SALES FOR YEAR 2011
+1. Drag InvoiceDate → Columns.
+2. Select MONTH.
+3. Drag Total Sales → Rows.
+4. Filter Year = 2011.
+5. Use Line Chart.
+
+f. COUNTRY WISE TOTAL SALES QUANTITY ON MAP
+1. Double Click Country.
+2. Drag Quantity → Color and Size.
+3. Use Filled Map.
+
+==================================================
+
+TABLEAU ASSIGNMENT 23 – ADULT DATASET
+
+Dataset Used:
+adult.csv
+
+STEP 1 – IMPORT DATASET
+1. Open Tableau.
+2. Click Text File.
+3. Select adult.csv.
+4. Use First Row as Headers.
+
+a. INCOME CLASS OF PEOPLE WHOSE EDUCATION IS MASTER’S AND DOCTORATE
+1. Drag education → Filters.
+2. Select Masters and Doctorate.
+3. Drag income → Rows.
+4. Drag Number of Records → Columns.
+5. Use Bar Chart.
+
+b. INCOME CLASS OF PEOPLE WHO HAVE PRIVATE JOBS
+1. Drag workclass → Filters.
+2. Select Private.
+3. Drag income → Rows.
+4. Drag Number of Records → Columns.
+
+c. YEARLY SALES COMPARISON
+1. Drag age → Columns.
+2. Drag Number of Records → Rows.
+3. Use Line Chart.
+
+d. COUNTRY WISE STATISTICS ON GEOSPATIAL GRAPH
+1. Right Click native-country.
+2. Geographic Role → Country/Region.
+3. Double Click native-country.
+4. Drag Number of Records → Color and Size.
+
+e. PLOT AGEWISE EDUCATION VS SALARY STATISTICS
+1. Drag age → Columns.
+2. Drag education-num → Rows.
+3. Drag income → Color.
+4. Use Scatter Plot.
+
+f. PLOT COUNTRYWISE MALE FEMALE RATIO
+1. Drag native-country → Rows.
+2. Drag Number of Records → Columns.
+3. Drag sex → Color.
+4. Use Stacked Bar Chart.
+
+g. PLOT INCOME CLASS BASED ON WORKCLASS
+1. Drag workclass → Rows.
+2. Drag Number of Records → Columns.
+3. Drag income → Color.
+4. Use Stacked Bar Chart.

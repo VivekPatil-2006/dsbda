@@ -1,0 +1,147 @@
+Flight Information System using HBase and HiveQL
+Simple Step-by-Step Commands with Proper Comments
+Step 1 : Open HBase Shell
+Command:
+hbase shell
+
+Comment:
+hbase shell -> opens HBase command shell
+Used to create and manage HBase tables
+a. Create Flight Information HBase Table
+Command:
+create 'flight_info','info','schedule','delay'
+
+Comment:
+create -> used to create table
+flight_info -> table name
+info -> column family for flight details
+schedule -> column family for schedule details
+delay -> column family for delay information
+Insert Data into Table
+Command:
+put 'flight_info','1','info:flight_name','AirIndia'
+put 'flight_info','1','info:source','Delhi'
+put 'flight_info','1','info:destination','Mumbai'
+put 'flight_info','1','schedule:time','10AM'
+put 'flight_info','1','delay:departure_delay','20'
+
+Comment:
+put -> inserts data into table
+flight_info -> table name
+1 -> row key
+info:flight_name -> column family and column
+AirIndia -> value stored
+delay:departure_delay -> stores delay value
+Display Table Data
+Command:
+scan 'flight_info'
+
+Comment:
+scan -> displays all records from table
+flight_info -> table name
+b. Create, Alter and Drop HBase Table
+Create Table:
+create 'flight_info','info','schedule','delay'
+
+Comment:
+create -> creates new HBase table
+
+Alter Table:
+alter 'flight_info', NAME => 'status'
+
+Comment:
+alter -> modifies existing table
+status -> new column family added
+
+Describe Table:
+describe 'flight_info'
+
+Comment:
+describe -> shows table structure and column families
+
+Disable Table:
+disable 'flight_info'
+
+Comment:
+disable -> disables table before deleting
+
+Drop Table:
+drop 'flight_info'
+
+Comment:
+drop -> permanently deletes table
+Recreate Table
+Command:
+create 'flight_info','info','schedule','delay'
+
+Comment:
+Table recreated for Hive connection
+Insert Sample Data Again
+Command:
+put 'flight_info','1','info:flight_name','AirIndia'
+put 'flight_info','1','delay:departure_delay','20'
+
+put 'flight_info','2','info:flight_name','Indigo'
+put 'flight_info','2','delay:departure_delay','10'
+
+Comment:
+Data inserted again for Hive queries
+Step 2 : Open Hive Shell
+Command:
+hive
+
+Comment:
+hive -> opens Hive shell
+Used to execute HiveQL queries
+c. Create External Hive Table
+ 
+Command:
+
+Comment:
+CREATE EXTERNAL TABLE -> creates Hive table
+flight_hive -> Hive table name
+id STRING -> stores row key
+flight_name STRING -> stores flight name
+departure_delay INT -> stores delay value
+STORED BY -> tells Hive to use HBase storage
+hbase.columns.mapping -> maps Hive columns with HBase columns
+:key -> row key
+info:flight_name -> HBase column
+delay:departure_delay -> HBase column
+flight_info -> actual HBase table name
+Display Hive Table Data
+Command:
+SELECT * FROM flight_hive;
+
+Comment:
+SELECT * -> displays all rows and columns
+flight_hive -> Hive table name
+d. Find Total Departure Delay
+Command:
+SELECT SUM(departure_delay)
+FROM flight_hive;
+
+Comment:
+SUM() -> adds all delay values
+departure_delay -> delay column name
+e. Find Average Departure Delay
+Command:
+SELECT AVG(departure_delay)
+FROM flight_hive;
+
+Comment:
+AVG() -> calculates average delay
+departure_delay -> delay column name
+f. Create Index on Flight Information Table
+Command:
+CREATE INDEX flight_index
+ON TABLE flight_hive(flight_name)
+AS 'COMPACT'
+WITH DEFERRED REBUILD;
+
+Comment:
+CREATE INDEX -> creates index
+flight_index -> index name
+flight_hive -> table name
+flight_name -> indexed column
+COMPACT -> type of Hive index

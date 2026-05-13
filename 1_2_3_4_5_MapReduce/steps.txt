@@ -1,0 +1,27 @@
+Create HDFS Input Directory
+hdfs dfs -mkdir /input
+
+Upload Input File to HDFS
+hdfs dfs -put logdata.txt /input
+
+You Can also see
+hdfs dfs -ls /wordinput
+
+Run MapReduce Job
+hadoop jar LogAnalysis.jar loganalysis.LogDurationAnalysis /input /output
+
+View Output
+hdfs dfs -cat /output/part-r-00000
+
+Delete Output
+hdfs df -rm -r /output
+
+//Start the Service
+sudo service hadoop-hdfs-namenode start
+sudo service hadoop-hdfs-datanode start
+sudo service hadoop-yarn-resourcemanager start
+sudo service hadoop-yarn-nodemanager start
+
+//Service Running Check Command
+sudo jps
+sudo -u yarn jps

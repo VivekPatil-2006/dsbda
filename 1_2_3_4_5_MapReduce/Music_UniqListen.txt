@@ -1,0 +1,131 @@
+package music;
+
+import java.io.IOException;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class MusicAnalysis {
+
+	// ================= MAPPER =================
+	public static class MyMapper
+        	extends Mapper<Object, Text, Text, IntWritable> {
+
+    	public void map(Object key, Text value, Context context)
+            	throws IOException, InterruptedException {
+
+        	// Convert line into String
+        	String line = value.toString();
+
+        	// Skip header row
+        	if (line.startsWith("UserId")) {
+            	return;
+        	}
+
+        	// Split using TAB
+        	String data[] = line.split("\\t");
+
+        	// Skip wrong rows
+        	if (data.length < 3) {
+            	return;
+        	}
+
+        	// Shared value
+        	int shared = Integer.parseInt(data[2]);
+
+        	// Count total listeners
+        	context.write(
+                	new Text("Listeners"),
+                	new IntWritable(1)
+        	);
+
+        	// Count shared songs
+        	if (shared == 1) {
+
+            	context.write(
+                    	new Text("Shared"),
+                    	new IntWritable(1)
+            	);
+        	}
+    	}
+	}
+
+	// ================= REDUCER =================
+	public static class MyReducer
+        	extends Reducer<Text, IntWritable,
+        	Text, IntWritable> {
+
+    	public void reduce(Text key,
+                       	Iterable<IntWritable> values,
+                       	Context context)
+            	throws IOException, InterruptedException {
+
+        	int total = 0;
+
+        	// Add all values
+        	for (IntWritable val : values) {
+
+            	total = total + val.get();
+        	}
+
+        	// Final output
+        	context.write(
+                	key,
+                	new IntWritable(total)
+        	);
+    	}
+	}
+
+	// ================= MAIN METHOD =================
+	public static void main(String[] args)
+        	throws Exception {
+
+    	// Create configuration
+    	Configuration conf = new Configuration();
+
+    	// Create job
+    	Job job = Job.getInstance(conf,
+            	"Music Analysis");
+
+    	// Main class
+    	job.setJarByClass(MusicAnalysis.class);
+
+    	// Set Mapper and Reducer
+    	job.setMapperClass(MyMapper.class);
+    	job.setReducerClass(MyReducer.class);
+
+    	// Output data types
+    	job.setOutputKeyClass(Text.class);
+    	job.setOutputValueClass(IntWritable.class);
+
+    	// Input file
+    	FileInputFormat.addInputPath(
+            	job,
+            	new Path(args[0])
+    	);
+
+    	// Output folder
+    	FileOutputFormat.setOutputPath(
+            	job,
+            	new Path(args[1])
+    	);
+
+    	// Run job
+    	System.exit(
+            	job.waitForCompletion(true)
+                    	? 0 : 1
+    	);
+	}
+}
+
+
